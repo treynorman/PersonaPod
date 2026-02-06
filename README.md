@@ -28,25 +28,25 @@ Generated podcast episodes are automatically uploaded to cloud storage. A **podc
 **Kmart Radio News**
 
 <video controls>
-  <source src="https://personapod.lol/demos/kmart_radio.mp4" type="audio/mp4">
+  <source src="https://personapod.lol/demos/kmart_radio.mp4" type="video/mp4">
 </video>
 
 **Rob Boss News**
 
 <video controls>
-  <source src="https://personapod.lol/demos/rob_boss.mp4" type="audio/mp4">
+  <source src="https://personapod.lol/demos/rob_boss.mp4" type="video/mp4">
 </video>
 
 **Jim Booyah News**
 
 <video controls>
-  <source src="https://personapod.lol/demos/jim_booyah.mp4" type="audio/mp4">
+  <source src="https://personapod.lol/demos/jim_booyah.mp4" type="video/mp4">
 </video>
 
 **Michael's Cot News**
 
 <video controls>
-  <source src="https://personapod.lol/demos/michaels_cot.mp4" type="audio/mp4">
+  <source src="https://personapod.lol/demos/michaels_cot.mp4" type="video/mp4">
 </video>
 
 
