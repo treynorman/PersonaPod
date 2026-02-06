@@ -10,7 +10,7 @@
 
 ### Overview
 
-**PersonaPod** is an open source AI podcast generator. It follows news article links from a news RSS feed, extracts the content, summarizes the articles, generates a news segment, then delivers the latest news using a cloned voice and personality of a defined persona. PersonaPod **runs  locally on open source AI models** and requires **zero commercial AI services**. Docker containers are automatically managed on the host machine to swap between **local LLM & TTS models** during podcast generation, allowing PersonaPod to run on systems with limited VRAM (15 GB minimum required when using the default TTS model).
+**PersonaPod** is an open source AI podcast generator. It follows news article links from a news RSS feed, extracts the content, summarizes the articles, generates a news segment, then delivers the latest news using a cloned voice and personality of a defined persona. PersonaPod **runs  locally on open source AI models**. Docker containers are automatically managed on the host machine to swap between **local LLM & TTS models** during podcast generation, allowing PersonaPod to run on systems with limited VRAM (15 GB minimum required when using the default TTS model).
 
 Generated podcast episodes are automatically uploaded to cloud storage. A **podcast RSS feed** is maintained on publicly accessible storage and updated with the latest generated episodes. A **web podcast player** is also included to serve the podcast episodes in a web browser.
 
@@ -25,30 +25,13 @@ Generated podcast episodes are automatically uploaded to cloud storage. A **podc
 
 ### Demos
 
-**Kmart Radio News**
+**[Kmart Radio News](https://personapod.lol/demos/kmart_radio.mp4)**
 
-<video controls>
-  <source src="https://personapod.lol/demos/kmart_radio.mp4" type="video/mp4">
-</video>
+**[Rob Boss News](https://personapod.lol/demos/rob_boss.mp4)**
 
-**Rob Boss News**
+**[Jim Booyah News](https://personapod.lol/demos/jim_booyah.mp4)**
 
-<video controls>
-  <source src="https://personapod.lol/demos/rob_boss.mp4" type="video/mp4">
-</video>
-
-**Jim Booyah News**
-
-<video controls>
-  <source src="https://personapod.lol/demos/jim_booyah.mp4" type="video/mp4">
-</video>
-
-**Michael's Cot News**
-
-<video controls>
-  <source src="https://personapod.lol/demos/michaels_cot.mp4" type="video/mp4">
-</video>
-
+**[Michael's Cot News](https://personapod.lol/demos/michaels_cot.mp4)**
 
 ### Models & Services Employed
 
