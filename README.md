@@ -63,7 +63,9 @@ Docker containers are used for all AI services in this project. LLM and TTS cont
 
 ### Installation & Setup
 
-Build and run a MaskGCT inside Docker container that's been modified to listen on all network interfaces. MaskGCT does not include a native Docker container. I've provided a Dockerfile that builds and encapsulates the project, resolves dependency issues, and listens on all interfaces. 
+Build and run a MaskGCT inside Docker container.
+
+MaskGCT does not include a native Docker container. I've provided a Dockerfile that builds and encapsulates the project, resolves dependency issues, and exposes the Gradio app API to listen on all network interfaces. 
 
 This MaskGCT Dockerfile is provided in a [separate GitHub repo](https://github.com/treynorman/MaskGCT-Docker).
 ```
