@@ -80,7 +80,7 @@ Clone this GitHub repo.
 git clone https://github.com/treynorman/PersonaPod
 ```
 
-Create and activate a virtual environment for the project. Then, install all dependencies from the `requirements.txt`.
+Create and activate a virtual environment for the project. Then, install all dependencies from `requirements.txt`.
 ```
 cd PersonaPod
 python3 -m venv venv
