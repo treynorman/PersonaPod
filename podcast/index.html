@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <script src="assets/rss-parser.min.js"></script>
+    <title>PersonaPod</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #4338ca;
+            --background: #070604;
+            --text: #FEFCF9;
+            --card-bg: #191913;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        a:link {
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        a:visited {
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .podcast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .podcast-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .podcast-artwork {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .podcast-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .podcast-meta {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .play-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex: 1;
+        }
+
+        .copy-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .play-button:hover {
+            background: var(--secondary);
+        }
+
+        .copy-button:hover {
+            background: var(--secondary);
+        }
+
+        .copy-button:hover:after {
+            content:". Do it.";
+        }
+
+        /* Keep existing player styles */
+        .player-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            padding: 1rem;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .player-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .seek-container {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .seek-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin-top: -2.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .podcast-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header" id="header">
+            <!-- Page header will be inserted here -->
+        </header>
+
+        <div class="podcast-grid" id="podcastContainer">
+            <!-- Podcast cards will be inserted here -->
+        </div>
+
+        <div class="player-container" id="playerContainer">
+            <div class="player-content">
+                <div class="seek-container" id="seekContainer">
+                    <div class="seek-bar" id="seekBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+                <div class="player-controls">
+                    <button class="control-button" id="playPauseBtn">▶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const RSS_FEED_URL = './personapod.xml';
+        const parser = new RSSParser();
+        const audio = new Audio();
+        let currentPodcast = null;
+
+        // DOM elements
+        const podcastContainer = document.getElementById('podcastContainer');
+        const playerContainer = document.getElementById('playerContainer');
+        const seekBar = document.getElementById('seekBar');
+        const currentTime = document.getElementById('currentTime');
+        const duration = document.getElementById('duration');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const seekContainer = document.getElementById('seekContainer');
+
+        const header = document.getElementById('header');
+        header.innerHTML = `
+                <h1>
+                    <img src="assets/personapod-logo-min.svg" style="vertical-align: middle; height: 5rem; width: 5rem;" />
+                </h1>
+                <h1>PersonaPod AI News</h1>
+                <p>Free and open source. Find me and star me on <a href="https://github.com/treynorman/PersonaPod" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+                <p>Add me to your favorite podcast app!</p>
+                <button class="copy-button" data-rss="${RSS_FEED_URL}">
+                    🔗 Podcast RSS
+                </button>
+            `;
+
+        async function fetchPodcasts() {
+            try {
+                const feed = await parser.parseURL(RSS_FEED_URL);
+                podcastContainer.innerHTML = ''; // Clear loading state
+                
+                feed.items.forEach(item => {
+                    const podcast = {
+                        title: item.title,
+                        date: new Date(item.pubDate).toLocaleDateString(),
+                        duration: item.itunes?.duration || 'N/A',
+                        url: item.enclosure?.url,
+                        artwork: item.itunes?.image || feed.image?.url || 'https://placehold.co/600x400?text=No+Artwork'
+                    };
+
+                    const card = document.createElement('div');
+                    card.className = 'podcast-card';
+                    card.innerHTML = `
+                        <img src="${podcast.artwork}" class="podcast-artwork" alt="${podcast.title}">
+                        <h3 class="podcast-title">${podcast.title}</h3>
+                        <div class="podcast-meta">
+                            <span>${podcast.date}</span> • 
+                            <span>${formatTime(podcast.duration)}</span>
+                        </div>
+                        <div class="button-group">
+                            <button class="play-button" data-url="${podcast.url}">
+                                Play Episode
+                            </button>
+                        </div>
+                    `;
+                    podcastContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error fetching podcast feed:', error);
+                podcastContainer.innerHTML = '<p>Error loading podcasts. Please try again later.</p>';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('play-button')) {
+                const url = e.target.dataset.url;
+                audio.src = url;
+                playerContainer.style.display = 'block';
+                audio.play();
+            }
+            
+            if (e.target.classList.contains('copy-button')) {
+                const rssLink = e.target.dataset.rss;
+                navigator.clipboard.writeText(rssLink)
+                    .then(() => alert('RSS link copied to clipboard!'))
+                    .catch(err => console.error('Failed to copy text:', err));
+            }
+        });
+
+        // Keep existing audio player functionality
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        });
+
+        // Spacebar control to Play / Pause audio
+        document.addEventListener('keydown', (e) => {
+            // Check for spacebar (key code 32) and ensure focus isn't on a button
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                
+                // Only handle if audio is loaded
+                if (audio.src) {
+                    if (audio.paused) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                }
+            }
+        });
+
+        audio.addEventListener('timeupdate', updateSeekBar);
+        audio.addEventListener('loadedmetadata', () => {
+            duration.textContent = formatTime(audio.duration);
+        });
+        audio.addEventListener('play', () => {
+            playPauseBtn.textContent = '❚❚';
+        });
+        audio.addEventListener('pause', () => {
+            playPauseBtn.textContent = '▶';
+        });
+
+        seekContainer.addEventListener('click', (e) => {
+            const rect = seekContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+        
+        // Helper functions
+        function updateSeekBar() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.style.width = `${progress}%`;
+            currentTime.textContent = formatTime(audio.currentTime);
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // Initial load
+        fetchPodcasts();
+    </script>
+</body>
+</html>

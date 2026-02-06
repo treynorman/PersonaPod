@@ -1,0 +1,1 @@
+Create an opener to start a news segment. The text must be no more than 200 characters in length. Begin with some variation of "Here is today's news" or "These are today's top stories" followed by your opinionated commentary. Do not summarize or list specific events. Be witty. Below are the news stories:

@@ -1,0 +1,6 @@
+boto3
+docker
+dotenv
+gradio_client
+news-please
+openai
