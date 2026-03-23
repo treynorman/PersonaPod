@@ -4,7 +4,7 @@
 
 <div align="center">
 <picture>
-  <img src="podcast/assets/personapod-logo.svg" alt="PersonaPod Logo" width="300">
+  <img src="podcast/assets/personapod-logo.png" alt="PersonaPod Logo" width="300">
 </picture>
 </div>
 
